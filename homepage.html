@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Defense Assets</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          background-color: #f8f9fa;
+          margin-top: 80px;
+        }
+        .fullscreen-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;  /* Make the image cover the entire screen */
+            z-index: -1;  /* Put the image behind the content */
+            
+        }
+    
+        h1 {
+          color: #343a40;
+        }
+    
+        .navbar {
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    
+        .text-center img {
+          max-width: 100%;
+          height: auto;
+          border-radius: 8px;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    
+        footer {
+          background-color: #343a40;
+          color: white;
+          padding: 20px;
+          position: fixed;
+          bottom: 0;
+          width: 100%;
+          text-align: center;
+        }
+      </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Defense Assets Management</h1>
+
+        <!-- Search Form -->
+        <form action="/search" method="POST" class="form-inline text-center mb-4">
+            <input type="text" name="asset_id" class="form-control mr-2" placeholder="Search by Asset ID" required>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+
+        <!-- Assets Table -->
+        <div class="card">
+            <div class="card-header">
+                <h4>Available Defense Assets</h4>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for asset in assets %}
+                            <tr>
+                                <td>{{ asset[0] }}</td>
+                                <td>{{ asset[1] }}</td>
+                                <td>{{ asset[2] }}</td>
+                                <td>{{ asset[3] }}</td>
+                                <td>
+                                    <a href="/edit/{{ asset[0] }}" class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="/delete/{{ asset[0] }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this asset?')">Delete</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Add New Asset Form -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h4>Add a New Defense Asset</h4>
+            </div>
+            <div class="card-body">
+                <form action="/insert" method="POST">
+                    <div class="form-group">
+                        <label for="asset_id">Asset ID:</label>
+                        <input type="text" class="form-control" name="asset_id" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="type">Type:</label>
+                        <input type="text" class="form-control" name="type" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status:</label>
+                        <input type="text" class="form-control" name="status" required>
+                    </div>
+                    <button type="submit" class="btn btn-success mt-3">Add Asset</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <img src="\static\image\india.jpg" class="fullscreen-bg" alt="Background Image">
+</body>
+</html>
